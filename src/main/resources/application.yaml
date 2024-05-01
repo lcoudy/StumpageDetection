@@ -1,0 +1,75 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  datasource:
+    #username: root # mysql用户名
+    #password: zafu.0050 # mysql密码
+    username: root # mysql用户名
+    password: 1111 # mysql密码
+#    password: lda001124. # mysql密码
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/stumdetdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    type: com.alibaba.druid.pool.DruidDataSource  # 使用druid数据源
+
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  servlet:
+    multipart: # 文件上传类配置
+      max-file-size: 16384MB # 单个文件体积上限
+      max-request-size: 16384MB # 一次请求体积上限
+      enabled: false
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.stumdet.pojo
+
+# 平台核心配置
+core:
+  root: "C:/Stu/StumdetRoot/"
+  image-upload: # 文件上传配置，绝对路径
+    upload-path: "C:/Stu/StumdetRoot/ImageRepo/"
+    tmp-path: "C:/Stu/StumdetRoot/.tmp/"
+  odm: # odm输出配置
+    output-location: "C:/Stu/StumdetRoot/ODMOutputRoot/"           # odm输出根目录，绝对路径
+    dem-name: "/odm_dem/dsm.tif"                               # 数字高程模型末端路径
+    ort-name: "/odm_orthophoto/odm_orthophoto.tif"             # 正射影像图末端路径
+    tex-name: "/odm_texturing/"      # 点云末端路径
+    obj-name: "/odm_texturing/odm_textured_model_geo.obj"
+  jwt:
+    secret-key: "token!8p&j2@Am#"
+  env:
+    obj23dtiles-bin: "C:/Stu/StumdetRoot/bin/obj23dtiles/bin/obj23dtiles.js"
+    obj23dtiles-output: "Batchedodm_textured_model_geo/"
+    tileset: "tileset.json"
+  yolo:
+    root: "C:/Stu/YoloDetect/"
+    detect-res: "/odm_orthophoto.tif"
+    detect-json: "/tree_coordinate.json"
+
+
+# upload具体路径规则:
+# ${core.fileUpload.uploadPath} + rid
+# ${core.fileUpload.tmpPath}
+
+# odm具体路径规则:
+# ${core.odm.outputLocation} + rid + ${core.odm.demName}
+# ${core.odm.outputLocation} + rid + ${core.odm.ortName}
+# ${core.odm.outputLocation} + rid + ${core.odm.texName}

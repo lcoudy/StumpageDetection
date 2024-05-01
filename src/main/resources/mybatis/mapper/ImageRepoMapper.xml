@@ -1,0 +1,40 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stumdet.mapper.ImageRepoMapper">
+
+    <select id="getRepoById" parameterType="String" resultMap="RepoDBMap">
+        SELECT * FROM `image_repo` WHERE `rid`=#{rid}
+    </select>
+
+    <select id="getRepoByUser" resultMap="RepoDBMap" parameterType="imageRepo">
+        SELECT * FROM `image_repo` WHERE `uid`=#{uid}
+    </select>
+
+    <insert id="createRepo" parameterType="imageRepo">
+        INSERT INTO `image_repo`(rid, uid, count, repo_location, create_time, size)
+        VALUES(#{rid}, #{uid}, #{count}, #{repoLocation}, #{createTime}, #{size})
+    </insert>
+
+    <update id="updateRepoInfo" parameterType="map">
+        UPDATE `image_repo`
+        SET `count`=#{count}, `size`=#{size}
+        WHERE `rid`=#{rid}
+    </update>
+
+    <delete id="deleteRepo" parameterType="String">
+        DELETE FROM `image_repo` WHERE `rid`=#{rid}
+    </delete>
+
+    <!--ResultMap-->
+    <resultMap id="RepoDBMap" type="ImageRepo">
+        <result column="rid" property="rid"/>
+        <result column="uid" property="uid"/>
+        <result column="count" property="count"/>
+        <result column="repo_location" property="repoLocation"/>
+        <result column="create_time" property="createTime"/>
+        <result column="size" property="size"/>
+    </resultMap>
+
+</mapper>

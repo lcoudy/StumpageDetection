@@ -1,0 +1,77 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stumdet.mapper.UserMapper">
+
+    <select id="getUserById" resultMap="UserDBMap" parameterType="String">
+        SELECT * FROM `user` WHERE `uid`=#{uid}
+    </select>
+
+    <select id="getAllUsers" resultMap="UserDBMap">
+        SELECT * FROM `user`
+    </select>
+
+    <select id="getUserByName" resultMap="UserDBMap" parameterType="String">
+        SELECT * FROM `user` WHERE `uname`=#{uname}
+    </select>
+
+    <insert id="addUser" parameterType="user">
+        INSERT INTO `user`(uid, uname, pwd, date_joined, last_login, is_superuser, first_name, last_name, email, is_staff, is_active)
+        VALUES(#{uid}, #{uname}, #{pwd}, #{dateJoined}, #{lastLogin}, #{isSuperuser}, #{firstName}, #{lastName}, #{email}, #{isStaff}, #{isActive})
+    </insert>
+
+    <update id="updateUserPass" parameterType="map">
+        UPDATE `user`
+        SET `uname`=#{uname}, `pwd`=#{pwd}
+        WHERE `uid`=#{uid}
+    </update>
+
+    <update id="updateUserInfo" parameterType="map">
+        UPDATE `user`
+        SET `first_name`=#{firstName}, `last_name`=#{lastName}, `email`=#{email}
+        WHERE `uid`=#{uid}
+    </update>
+
+    <update id="changeSuperuser" parameterType="map">
+        UPDATE `user`
+        SET `is_superuser`=#{isSuperuser}
+        WHERE `uid`=#{uid}
+    </update>
+
+    <update id="changeStaff" parameterType="map">
+        UPDATE `user`
+        SET `is_staff`=#{isStaff}
+        WHERE `uid`=#{uid}
+    </update>
+
+    <update id="changeActive" parameterType="map">
+        UPDATE `user`
+        SET `is_active`=#{isActive}
+        WHERE `uid`=#{uid}
+    </update>
+
+    <delete id="deleteUserById" parameterType="String">
+        DELETE FROM `user` WHERE `uid`=#{uid}
+    </delete>
+
+    <delete id="deleteUserByName" parameterType="String">
+        DELETE FROM `user` WHERE `uname`=#{uname}
+    </delete>
+
+    <!--Result Map-->
+    <resultMap id="UserDBMap" type="user">
+        <result column="date_joined" property="dateJoined"/>
+        <result column="uname" property="uname"/>
+        <result column="uid" property="uid"/>
+        <result column="pwd" property="pwd"/>
+        <result column="last_login" property="lastLogin"/>
+        <result column="is_superuser" property="isSuperuser"/>
+        <result column="first_name" property="firstName"/>
+        <result column="last_name" property="lastName"/>
+        <result column="email" property="email"/>
+        <result column="is_staff" property="isStaff"/>
+        <result column="is_active" property="isActive"/>
+    </resultMap>
+
+</mapper>

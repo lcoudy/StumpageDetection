@@ -1,0 +1,40 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stumdet.mapper.ProjectMapper">
+    <select id="getProjectByPid" parameterType="String" resultMap="ProjectMap">
+        SELECT * FROM `odm_project` WHERE `pid`=#{pid}
+    </select>
+
+    <select id="getProjectByUid" parameterType="String" resultMap="ProjectMap">
+        SELECT * FROM `odm_project` WHERE `uid`=#{uid}
+    </select>
+
+    <select id="getProjectByPname" parameterType="String" resultMap="ProjectMap">
+        SELECT * FROM `odm_project` WHERE `pname`=#{pname}
+    </select>
+
+    <insert id="createProject" parameterType="Project">
+        INSERT INTO `odm_project`(pid, uid, pname, description, create_time)
+        VALUES(#{pid}, #{uid}, #{pname}, #{description}, #{createTime})
+    </insert>
+
+    <delete id="deleteProjectByPid" parameterType="String">
+        DELETE FROM `odm_project` WHERE `pid`=#{pid}
+    </delete>
+
+    <update id="updateProject" parameterType="map">
+        UPDATE `odm_project`
+        SET `pname`=#{pname}, `description`=#{description}
+        WHERE `pid`=#{pid}
+    </update>
+
+    <resultMap id="ProjectMap" type="Project">
+        <result property="pid" column="pid"/>
+        <result property="uid" column="uid"/>
+        <result property="pname" column="pname"/>
+        <result property="description" column="description"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+</mapper>
